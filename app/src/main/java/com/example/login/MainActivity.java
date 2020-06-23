@@ -10,7 +10,6 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,8 +23,6 @@ public class MainActivity extends AppCompatActivity {
     private Button registrationBtn;
     private EditText loginEdTxt;
     private EditText passwordEdTxt;
-    private FileOutputStream fileOutputStream;
-    private FileInputStream fileInputStream;
 
 
     @Override
@@ -80,22 +77,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean readFile(String fileName, String data) {
-        try {
-            fileInputStream = openFileInput(fileName);
-            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-            BufferedReader reader = new BufferedReader(inputStreamReader);
+
+        try (FileInputStream fileInputStream = openFileInput(fileName);
+             InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+             BufferedReader reader = new BufferedReader(inputStreamReader)) {
             try {
                 String line = reader.readLine();
-                if (line.equals(data)){
-                    return true;
-                }else {
-                    return false;
-                }
+                return line.equals(data);
             } catch (IOException e) {
                 e.printStackTrace();
                 return false;
             }
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
@@ -103,17 +96,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void saveFile(String fileName, String data) {
-        try {
-            fileOutputStream = openFileOutput(fileName, MODE_PRIVATE);
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
-            BufferedWriter bw = new BufferedWriter(outputStreamWriter);
-            try {
-                bw.write(data + "\n");
-                bw.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
+        try (FileOutputStream fileOutputStream = openFileOutput(fileName, MODE_PRIVATE);
+             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
+             BufferedWriter bw = new BufferedWriter(outputStreamWriter)) {
+            bw.write(data + "\n");
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
