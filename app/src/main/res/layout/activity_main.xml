@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Login"
+            android:hint="@string/login"
             android:inputType="textPersonName"
             android:textSize="20sp" />
 
@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:textSize="20sp" />
     </LinearLayout>
@@ -59,7 +59,7 @@
             android:shadowDx="0"
             android:shadowDy="0"
             android:shadowRadius="5"
-            android:text="Login"
+            android:text="@string/login"
             android:textColor="#FFFFFF"
             android:textSize="24sp" />
 
@@ -73,7 +73,7 @@
             android:shadowDx="0"
             android:shadowDy="0"
             android:shadowRadius="5"
-            android:text="Registration"
+            android:text="@string/registration"
             android:textColor="#FFFFFF"
             android:textSize="24sp" />
     </LinearLayout>
